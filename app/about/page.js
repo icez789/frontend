@@ -36,16 +36,20 @@ export default function AboutPage() {
               </h2>
               {/* เปลี่ยนเป็น text-gray-200 เพราะยังอยู่บนพื้นหลังสีดำหลัก */}
               <p className="text-lg text-gray-200 mb-4">
-                **วิสัยทัศน์:** เรามุ่งมั่นที่จะเป็นผู้นำในการสร้างสรรค์เว็บไซต์และแพลตฟอร์มดิจิทัลที่เปี่ยมนวัตกรรม นำเสนอประสบการณ์ผู้ใช้ที่ยอดเยี่ยม และขับเคลื่อนการเติบโตของธุรกิจในยุคดิจิทัล
+                วิสัยทัศน์: เรามุ่งมั่นที่จะเป็นผู้นำในการสร้างสรรค์เว็บไซต์และแพลตฟอร์มดิจิทัลที่เปี่ยมนวัตกรรม นำเสนอประสบการณ์ผู้ใช้ที่ยอดเยี่ยม และขับเคลื่อนการเติบโตของธุรกิจในยุคดิจิทัล
               </p>
               <p className="text-lg text-gray-200">
-                **พันธกิจ:** เราให้บริการพัฒนาเว็บไซต์แบบครบวงจร โดยผสานความเชี่ยวชาญด้าน Next.js และ Tailwind CSS เข้ากับความเข้าใจในเป้าหมายทางธุรกิจของลูกค้า เพื่อส่งมอบผลงานที่มีคุณภาพสูง ประสิทธิภาพดีเยี่ยม และใช้งานได้จริง
+                พันธกิจ: เราให้บริการพัฒนาเว็บไซต์แบบครบวงจร โดยผสานความเชี่ยวชาญด้าน Next.js และ Tailwind CSS เข้ากับความเข้าใจในเป้าหมายทางธุรกิจของลูกค้า เพื่อส่งมอบผลงานที่มีคุณภาพสูง ประสิทธิภาพดีเยี่ยม และใช้งานได้จริง
               </p>
             </div>
             {/* ส่วนนี้มี bg-gray-200 h-64 ซึ่งจะสร้างกล่องสีเทาอ่อนขึ้นมา */}
             <div className="order-1 md:order-2">
                <div className="bg-gray-200 h-64 rounded-lg flex items-center justify-center text-gray-600">
-                [พื้นที่สำหรับรูปภาพเกี่ยวกับวิสัยทัศน์/พันธกิจ]
+                <img
+                    src="./img/aboutimg/1.jpg" // <--- **ใส่ Path รูปภาพของคุณที่นี่**
+                    alt="วิสัยทัศน์และพันธกิจขององค์กร"
+                    className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -81,46 +85,55 @@ export default function AboutPage() {
             {/* Member Card 1 - ส่วนนี้มี bg-white อยู่แล้ว ฟอนต์ควรเป็นสีเข้ม */}
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <div className="bg-gray-200 w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-600">
-                [รูปโปรไฟล์]
+                <img
+                    src="./img/contactimg/1.jpg" // <--- **ใส่ Path รูปภาพของคุณที่นี่**
+                    className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                [ชื่อสมาชิก 1]
+                [cool dog]
               </h3>
               <p className="text-blue-600 font-medium mb-2">
-                ตำแหน่ง (เช่น ผู้ก่อตั้ง, Lead Developer)
+                ตำแหน่ง CEO
               </p>
               <p className="text-gray-700 text-sm">
-                อธิบายบทบาทและประสบการณ์สั้นๆ ของสมาชิกคนนี้
+                บริหารธุรกิจระดับหมื่นล้าน
               </p>
             </div>
             {/* Member Card 2 */}
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
                <div className="bg-gray-200 w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-600">
-                [รูปโปรไฟล์]
+                <img
+                    src="./img/contactimg/2.jpg" // <--- **ใส่ Path รูปภาพของคุณที่นี่**
+                    className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                [ชื่อสมาชิก 2]
+                [cool cat]
               </h3>
               <p className="text-blue-600 font-medium mb-2">
-                ตำแหน่ง (เช่น UI/UX Designer)
+                ตำแหน่ง UX/UI Designer
               </p>
               <p className="text-gray-700 text-sm">
-                อธิบายบทบาทและประสบการณ์สั้นๆ ของสมาชิกคนนี้
+                สร้างสรรค์ผลงานระดับพระกาฬ
               </p>
             </div>
             {/* Member Card 3 */}
              <div className="bg-white p-6 rounded-lg shadow-md text-center">
                <div className="bg-gray-200 w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-600">
-                [รูปโปรไฟล์]
+                <img
+                    src="./img/contactimg/3.jpg" // <--- **ใส่ Path รูปภาพของคุณที่นี่**
+                    className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                [ชื่อสมาชิก 3]
+                [cool bird]
               </h3>
               <p className="text-blue-600 font-medium mb-2">
-                ตำแหน่ง (เช่น Front-end Developer)
+                ตำแหน่ง coder
               </p>
               <p className="text-gray-700 text-sm">
-                อธิบายบทบาทและประสบการณ์สั้นๆ ของสมาชิกคนนี้
+                ทำทุกอย่าง
               </p>
             </div>
           </div>

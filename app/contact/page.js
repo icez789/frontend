@@ -105,21 +105,21 @@ export default function ContactPage() {
             <div className="space-y-6 text-gray-700 text-lg">
               <p>
                 <span className="font-semibold text-blue-600">โทรศัพท์:</span> <br />
-                <a href="tel:+66123456789" className="hover:underline">**+66 (0) 12 345 6789**</a> (ตัวอย่าง)
+                <a href="tel:+66123456789" className="hover:underline">0689745623</a> 
               </p>
               <p>
                 <span className="font-semibold text-blue-600">อีเมล:</span> <br />
-                <a href="mailto:info@mywebsite.com" className="hover:underline">**info@mywebsite.com**</a> (ตัวอย่าง)
+                <a href="mailto:info@mywebsite.com" className="hover:underline">terapatsiri1@gmail.com</a> 
               </p>
               <p>
                 <span className="font-semibold text-blue-600">ที่อยู่:</span> <br />
-                **123/45 ถนนนิมมานเหมินท์** <br />
-                **ตำบลสุเทพ, อำเภอเมือง** <br />
-                **เชียงใหม่ 50200, ประเทศไทย** (ตัวอย่าง)
+                123/45 ถนนนิมมานเหมินท์ <br />
+                ตำบลสุเทพ, อำเภอเมือง <br />
+                เชียงใหม่ 50200, ประเทศไทย
               </p>
               <p>
                 <span className="font-semibold text-blue-600">เวลาทำการ:</span> <br />
-                **จันทร์ - ศุกร์: 9:00 น. - 17:00 น.**
+                จันทร์ - ศุกร์: 9:00 น. - 17:00 น.
               </p>
             </div>
             {/* Optional: Social Media Links */}
@@ -128,11 +128,11 @@ export default function ContactPage() {
                 ติดตามเรา
               </h3>
               <div className="flex space-x-4">
-                <a href="https://facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-900 text-3xl">
+                <a href="https://www.facebook.com/pathofexile" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:text-blue-900 text-3xl">
                   <i className="fab fa-facebook-square"></i> {/* ถ้าใช้ Font Awesome */}
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.815c-3.235 0-4.185 1.986-4.185 4.081v2.919z"/></svg>
                 </a>
-                <a href="https://twitter.com/yourhandle" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 text-3xl">
+                <a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 text-3xl">
                   <i className="fab fa-twitter-square"></i>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.417 0-6.178 2.761-6.178 6.179 0 .484.054.954.129 1.407-5.144-.258-9.637-2.731-12.69-6.471-.524.89-.83 1.933-.83 3.036 0 2.132 1.084 4.037 2.732 5.147-.807-.025-1.567-.248-2.228-.616v.086c0 2.996 2.132 5.485 4.97 6.075-.515.137-1.052.223-1.612.223-.393 0-.776-.038-1.149-.111.793 2.474 3.076 4.26 5.82 4.31-.212.164-.43.31-.655.445 1.096.855 2.378 1.359 3.774 1.359.883 0 1.73-.081 2.545-.246 1.13-.88 2.064-2.013 2.599-3.328 1.637-2.083 2.59-4.764 2.59-7.755 0-.214-.007-.427-.02-.639.897-.643 1.677-1.446 2.309-2.362z"/></svg>
                 </a>
