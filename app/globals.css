@@ -1,5 +1,28 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* เพิ่มหรือตรวจสอบให้แน่ใจว่ามี CSS นี้ */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* overflow-x: hidden; */ /* อาจจะไม่จำเป็นถ้ามั่นใจว่าไม่มีเนื้อหาเกินขอบ */
+}
+
+/* ถ้าต้องการให้ body ยืดเต็มความสูงของ viewport */
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+
+
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

@@ -2,7 +2,7 @@
 
 'use client'; // จำเป็นสำหรับ React Hooks เช่น useState และ useEffect
 
-import Head from 'next/head';
+// import Head from 'next/head'; // ไม่จำเป็นต้อง import Head อีกต่อไปถ้าใช้ metadata ใน layout.js
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
@@ -10,28 +10,21 @@ export default function HomePage() {
   // ข้อมูลสำหรับส่วน Card (Features)
   const features = [
     {
-      // Card ใบที่ 1: เปลี่ยนจาก icon เป็น image
       title: "ประสิทธิภาพเหนือระดับ",
       description: "ด้วย Next.js เว็บไซต์ของคุณจะโหลดได้รวดเร็วทันใจ พร้อมประสบการณ์ผู้ใช้ที่ไร้รอยต่อ",
-      // เปลี่ยนจาก 'icon' เป็น 'image' และใส่ path รูปภาพ
-      image: '/img/card/1.jpg', // <--- เปลี่ยนตรงนี้: Path ไปยังรูปภาพ
+      image: '/img/card/1.jpg',
     },
     {
-      // Card ใบที่ 2: เปลี่ยนจาก icon เป็น image
       title: "ออกแบบสวยงามทันสมัย",
       description: "ใช้ Tailwind CSS เพื่อสร้างดีไซน์ที่ตอบสนองทุกอุปกรณ์และมีความยืดหยุ่นสูง ปรับแต่งได้ตามแบรนด์ของคุณ",
-      // เปลี่ยนจาก 'icon' เป็น 'image' และใส่ path รูปภาพ
-      image: '/img/card/2.jpg', // <--- เปลี่ยนตรงนี้: Path ไปยังรูปภาพ
+      image: '/img/card/2.jpg',
     },
     {
-      // Card ใบที่ 3: เปลี่ยนจาก icon เป็น image
       title: "ปรับแต่งได้ตามต้องการ",
       description: "เราทำงานร่วมกับคุณเพื่อสร้างเว็บไซต์ที่ตรงกับวิสัยทัศน์และเป้าหมายทางธุรกิจของคุณในทุกรายละเอียด",
-      // เปลี่ยนจาก 'icon' เป็น 'image' และใส่ path รูปภาพ
-      image: '/img/card/3.jpeg', // <--- เปลี่ยนตรงนี้: Path ไปยังรูปภาพ
+      image: '/img/card/3.jpeg',
     },
     {
-      // Card ใบที่ 4 (ยังคงเป็น icon หากต้องการ)
       title: "รองรับการทำ SEO",
       description: "ปรับแต่งเว็บไซต์ของคุณให้พร้อมสำหรับการจัดอันดับบน Search Engine เพื่อให้ลูกค้าค้นหาคุณเจอได้ง่ายขึ้น",
       icon: (
@@ -41,7 +34,6 @@ export default function HomePage() {
       ),
     },
     {
-      // Card ใบที่ 5 (ยังคงเป็น icon หากต้องการ)
       title: "ปลอดภัยและน่าเชื่อถือ",
       description: "เราให้ความสำคัญกับความปลอดภัยของข้อมูล และสร้างเว็บไซต์ที่มั่นคงแข็งแรง",
       icon: (
@@ -51,7 +43,6 @@ export default function HomePage() {
       ),
     },
     {
-      // Card ใบที่ 6 (ยังคงเป็น icon หากต้องการ)
       title: "บริการหลังการขายที่ดีเยี่ยม",
       description: "เราพร้อมให้คำปรึกษาและสนับสนุนหลังจากส่งมอบเว็บไซต์ เพื่อให้คุณมั่นใจในการใช้งาน",
       icon: (
@@ -62,7 +53,6 @@ export default function HomePage() {
     },
   ];
 
-  // ... โค้ดส่วน Carousel (ไม่เปลี่ยนแปลง) ...
   const images = [
     '/img/slider/1.jpg',
     '/img/slider/2.jpg',
@@ -87,42 +77,47 @@ export default function HomePage() {
   const goToNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
-  // ... สิ้นสุดโค้ดส่วน Carousel ...
 
   return (
     <>
+      {/* <Head> ไม่จำเป็นต้องใช้แล้วถ้าใช้ metadata ใน layout.js */}
+      {/*
       <Head>
         <title>My Website - สร้างสรรค์เว็บไซตส์คุณภาพ</title>
         <meta name="description" content="บริการพัฒนาเว็บไซต์ Next.js และ Tailwind CSS สร้างประสบการณ์ผู้ใช้ที่รวดเร็วและสวยงาม" />
         <meta name="keywords" content="Next.js, Tailwind CSS, เว็บไซต์, พัฒนาเว็บไซต์, ออกแบบเว็บ, เว็บไซต์ธุรกิจ, เว็บแอปพลิเคชัน" />
       </Head>
+      */}
 
-      {/* Hero Section */}
+      {/* Hero Section - ใส่ container mx-auto px-4 เพื่อจำกัดความกว้างเนื้อหา */}
       <div className="text-center py-16 px-4">
-        <h1 className="text-5xl font-extrabold text-white mb-6">
-          สร้างเว็บไซต์แห่งอนาคต <br className="hidden sm:inline" />ด้วย Next.js และ Tailwind CSS
-        </h1>
-        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          เราคือผู้เชี่ยวชาญในการพลิกโฉมไอเดียของคุณให้กลายเป็นเว็บไซต์ที่สวยงาม รวดเร็ว และใช้งานง่าย ด้วยเทคโนโลยีล้ำสมัย
-        </p>
-        <div className="space-x-4">
-          <Link
-            href="/service"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out text-lg"
-          >
-            ดูบริการของเรา
-          </Link>
-          <Link
-            href="/contact"
-            className="bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700 font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out text-lg"
-          >
-            ติดต่อเรา
-          </Link>
-        </div>
+        <div className="container mx-auto"> {/* เพิ่ม div นี้เพื่อจำกัดความกว้างเนื้อหา */}
+          <h1 className="text-5xl font-extrabold text-white mb-6">
+            สร้างเว็บไซต์แห่งอนาคต <br className="hidden sm:inline" />ด้วย Next.js และ Tailwind CSS
+          </h1>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            เราคือผู้เชี่ยวชาญในการพลิกโฉมไอเดียของคุณให้กลายเป็นเว็บไซต์ที่สวยงาม รวดเร็ว และใช้งานง่าย ด้วยเทคโนโลยีล้ำสมัย
+          </p>
+          <div className="space-x-4">
+            <Link
+              href="/service"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out text-lg"
+            >
+              ดูบริการของเรา
+            </Link>
+            <Link
+              href="/contact"
+              className="bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-50 hover:text-blue-700 font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out text-lg"
+            >
+              ติดต่อเรา
+            </Link>
+          </div>
+        </div> {/* สิ้นสุด div container */}
       </div>
 
-      {/* **** ส่วน Carousel **** */}
-      <section className="relative w-full max-w-5xl mx-auto my-12 rounded-lg overflow-hidden shadow-xl">
+      {/* **** ส่วน Carousel - ปรับปรุงตรงนี้ **** */}
+      {/* ลบ 'max-w-5xl', 'mx-auto', 'rounded-lg', 'shadow-xl' ออกทั้งหมด */}
+      <section className="relative w-full my-12 overflow-hidden">
         <div className="relative h-[500px]">
           {images.map((image, index) => (
             <img
@@ -167,7 +162,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ส่วน Card (Features) - ปรับปรุงตรงนี้ */}
+      {/* ส่วน Card (Features) - มี container อยู่แล้ว */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
           <h2 className="text-4xl font-bold text-center text-white mb-12">
@@ -181,7 +176,7 @@ export default function HomePage() {
                   <img
                     src={feature.image}
                     alt={feature.title}
-                    className="w-full h-48 object-cover rounded-md mb-4 mx-auto" // <--- ปรับขนาดรูปภาพใน Card
+                    className="w-full h-48 object-cover rounded-md mb-4 mx-auto"
                   />
                 )}
                 {/* ถ้าไม่มี 'image' property (แต่มี 'icon') ให้แสดง icon เหมือนเดิม */}
@@ -199,8 +194,6 @@ export default function HomePage() {
       </section>
 
       {/* อาจจะเพิ่ม Testimonials, Call to Action เพิ่มเติมได้ที่นี่ */}
-
-      {/* Footer (ถ้ามีใน layout.js ไม่ต้องใส่ซ้ำ) */}
     </>
   );
 }
