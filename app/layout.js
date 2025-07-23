@@ -1,9 +1,9 @@
 // frontend/app/layout.js
 
-import './globals.css'; // ตรวจสอบว่า import ถูกต้อง
-import Link from 'next/link';
+import './globals.css';
+import Link from 'next/link'; // อย่าลืม import Link
 
-export const metadata = { // สำหรับ Next.js 13+ App Router, metadata ควรอยู่ที่นี่
+export const metadata = {
   title: 'My Website - สร้างสรรค์เว็บไซต์คุณภาพ',
   description: 'บริการพัฒนาเว็บไซต์ Next.js และ Tailwind CSS สร้างประสบการณ์ผู้ใช้ที่รวดเร็วและสวยงาม',
   keywords: 'Next.js, Tailwind CSS, เว็บไซต์, พัฒนาเว็บไซต์, ออกแบบเว็บ, เว็บไซต์ธุรกิจ, เว็บแอปพลิเคชัน',
@@ -20,14 +20,28 @@ export default function RootLayout({ children }) {
                 <div className="space-x-4">
                     <Link href="/" className="hover:text-blue-400">หน้าหลัก</Link>
                     <Link href="/about" className="hover:text-blue-400">เกี่ยวกับ</Link>
-                    <Link href="/contact" className="hover:text-blue-400">ติดต่อ</Link>
                     <Link href="/service" className="hover:text-blue-400">บริการ</Link>
+                    <Link href="/contact" className="hover:text-blue-400">ติดต่อ</Link>
+                    {/* เพิ่มลิงก์เข้าสู่ระบบแบบมีกรอบตรงนี้ */}
+                    <Link
+                      href="/login"
+                      className="border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-md transition duration-300 ease-in-out"
+                    >
+                      เข้าสู่ระบบ
+                    </Link>
+                    {/* ถ้ามีลิงก์สมัครสมาชิกและอยากให้มีกรอบด้วย */}
+                    <Link
+                      href="/register"
+                      className="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white px-3 py-2 rounded-md transition duration-300 ease-in-out"
+                    >
+                      สมัครสมาชิก
+                    </Link>
                 </div>
             </nav>
         </header>
 
-        {/* Main content - ลบคลาสที่จำกัดความกว้างออกไป เพื่อให้ Carousel สามารถเต็มหน้าจอได้ */}
-        <main className="bg-gray-900 min-h-screen text-white"> {/* ลบ container, mx-auto, px-4 ออก */}
+        {/* Main content */}
+        <main className="bg-gray-900 min-h-screen text-white">
           {children}
         </main>
 
