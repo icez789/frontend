@@ -83,7 +83,7 @@ export default function ServicePage() {
                 {service.description}
               </p>
             </div>
-          ))} {/* <-- ตรวจสอบให้แน่ใจว่าวงเล็บปิด ')' ครบถ้วน */}
+          ))} 
         </section>
 
         <section className="text-center bg-blue-600 text-white py-12 rounded-lg shadow-xl">

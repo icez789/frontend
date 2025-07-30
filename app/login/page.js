@@ -1,9 +1,9 @@
-// frontend/app/login/page.js
 
-'use client'; // จำเป็นสำหรับ React Hooks เช่น useState
+
+'use client'; 
 
 import { useState } from 'react';
-import Link from 'next/link'; // อย่าลืม import Link
+import Link from 'next/link'; 
 
 export default function LoginPage() {
   const [username, setUsername] = useState(''); // เปลี่ยนจาก email เป็น username

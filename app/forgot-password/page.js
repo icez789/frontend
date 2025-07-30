@@ -15,17 +15,7 @@ export default function ForgotPasswordPage() {
     setStatus(''); // ล้างสถานะก่อนหน้า
     setLoading(true);
 
-    // TODO: ตรงนี้คือส่วนที่คุณจะต้องเชื่อมต่อกับระบบ Backend เพื่อส่งอีเมลสำหรับรีเซ็ตรหัสผ่าน
-    // Backend จะต้องสร้าง Token และส่งลิงก์รีเซ็ตที่มี Token ไปยังอีเมลของผู้ใช้
-    // ตัวอย่างเช่น:
-    // const response = await fetch('/api/forgot-password', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ email }),
-    // });
-    // const data = await response.json();
-
-    // ตัวอย่างการจำลองการส่งคำขอ (แทนที่ด้วย Logic จริง)
+    
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
       console.log('ส่งคำขอรีเซ็ตรหัสผ่านสำหรับอีเมล:', email);

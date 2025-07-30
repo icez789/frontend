@@ -1,72 +1,72 @@
 // frontend/app/register/page.js
+// หรือตำแหน่งที่ Component สมัครสมาชิกของคุณอยู่
 
-'use client'; // จำเป็นสำหรับ React Hooks เช่น useState
+'use client';
 
 import { useState } from 'react';
-import Link from 'next/link'; // สำหรับลิงก์กลับไปหน้า Login
+import Swal from 'sweetalert2';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
-export default function RegisterPage() {
+export default function Register() {
+  const [firstname, setFirstname] = useState('');
+  const [fullname, setFullname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [prefix, setPrefix] = useState(''); // คำนำหน้าชื่อ
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [address, setAddress] = useState('');
-  const [gender, setGender] = useState(''); // เพศ
-  const [dob, setDob] = useState(''); // วันเกิด
-  const [agreeTerms, setAgreeTerms] = useState(false); // ยอมรับเงื่อนไข
-  const [error, setError] = useState('');
+  const [sex, setSex] = useState('');         // เปลี่ยนจาก gender เป็น sex
+  const [birthday, setBirthday] = useState(''); // เปลี่ยนจาก dob เป็น birthday
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError('');
 
-    // ตรวจสอบเงื่อนไขเบื้องต้น (เช่น ต้องยอมรับเงื่อนไข)
-    if (!agreeTerms) {
-      setError('กรุณายอมรับเงื่อนไขการให้บริการ');
-      return;
-    }
-
-    setLoading(true);
-
-    // TODO: ตรงนี้คือส่วนที่คุณจะต้องเชื่อมต่อกับระบบ Backend สำหรับการสมัครสมาชิกจริง ๆ
-    // ตัวอย่างเช่น:
-    // const response = await fetch('/api/register', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     username,
-    //     password,
-    //     prefix,
-    //     firstName,
-    //     lastName,
-    //     address,
-    //     gender,
-    //     dob,
-    //   }),
-    // });
-    // const data = await response.json();
-
-    // ตัวอย่างการจำลองการสมัครสมาชิก (แทนที่ด้วย Logic จริง)
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
-      console.log('ข้อมูลการสมัครสมาชิก:', {
-        username,
-        password, // ในความเป็นจริงควรส่งแบบเข้ารหัส หรือแฮช
-        prefix,
-        firstName,
-        lastName,
-        address,
-        gender,
-        dob,
-        agreeTerms,
+      const res = await fetch('http://itdev.cmtc.ac.th:3000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // ส่งข้อมูลทั้งหมดไป Backend พร้อมชื่อ field ที่ตรงกัน
+        body: JSON.stringify({ firstname, fullname, lastname, username, password, address, sex, birthday }), // แก้ตรงนี้
       });
-      alert('สมัครสมาชิกสำเร็จ!');
-      // router.push('/login'); // อาจจะ redirect ไปหน้า Login หลังจากสมัครสำเร็จ
-    } catch (err) {
-      setError('เกิดข้อผิดพลาดในการสมัครสมาชิก');
-      console.error(err);
+
+      const result = await res.json();
+      console.log(result);
+
+      if (res.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'สมัครสมาชิกสำเร็จ!',
+          text: result.message || 'คุณจะถูกนำไปยังหน้าเข้าสู่ระบบ',
+          confirmButtonText: 'ตกลง'
+        }).then(() => {
+          router.push('/login');
+        });
+      } else {
+        setError(result.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก');
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด!',
+          text: result.message || 'ไม่สามารถสมัครสมาชิกได้',
+          confirmButtonText: 'ตกลง'
+        });
+      }
+    } catch (apiError) {
+      console.error('API Error:', apiError);
+      setError('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+      Swal.fire({
+        icon: 'error',
+        title: 'การเชื่อมต่อผิดพลาด!',
+        text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง',
+        confirmButtonText: 'ตกลง'
+      });
     } finally {
       setLoading(false);
     }
@@ -78,196 +78,143 @@ export default function RegisterPage() {
       <meta name="description" content="หน้าสมัครสมาชิกสำหรับ My Website" />
 
       <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8 bg-gray-800 p-10 rounded-lg shadow-xl">
+        <div className="max-w-md w-full space-y-8 bg-gray-800 p-10 rounded-lg shadow-xl text-white">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
               สมัครสมาชิก
             </h2>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div className="rounded-md shadow-sm -space-y-px">
-              {/* ชื่อผู้ใช้ */}
+              {/* คำนำหน้าชื่อ */}
               <div>
-                <label htmlFor="username" className="sr-only">
-                  ชื่อผู้ใช้
-                </label>
+                <label htmlFor="firstname" className="sr-only">คำนำหน้าชื่อ</label>
+                <select
+                  id="firstname"
+                  name="firstname"
+                  onChange={(e) => setFirstname(e.target.value)}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                  value={firstname}
+                >
+                  <option value="">เลือกคำนำหน้าชื่อ</option>
+                  <option value="นาย">นาย</option>
+                  <option value="นาง">นาง</option>
+                  <option value="นางสาว">นางสาว</option>
+                </select>
+              </div>
+
+              {/* ชื่อ */}
+              <div>
+                <label htmlFor="fullname" className="sr-only">ชื่อ</label>
+                <input
+                  id="fullname"
+                  name="fullname"
+                  type="text"
+                  placeholder="ชื่อ"
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                />
+              </div>
+
+              {/* นามสกุล */}
+              <div>
+                <label htmlFor="lastname" className="sr-only">นามสกุล</label>
+                <input
+                  id="lastname"
+                  name="lastname"
+                  type="text"
+                  placeholder="นามสกุล"
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                />
+              </div>
+
+              {/* Username */}
+              <div>
+                <label htmlFor="username" className="sr-only">Username</label>
                 <input
                   id="username"
                   name="username"
                   type="text"
                   autoComplete="username"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="ชื่อผู้ใช้"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
                 />
               </div>
-              {/* รหัสผ่าน */}
+
+              
               <div>
-                <label htmlFor="password" className="sr-only">
-                  รหัสผ่าน
-                </label>
+                <label htmlFor="password" className="sr-only">Password</label>
                 <input
                   id="password"
                   name="password"
                   type="password"
                   autoComplete="new-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="รหัสผ่าน"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
                 />
               </div>
-            </div>
 
-            {/* คำนำหน้าชื่อ */}
-            <div className="mt-4">
-              <label htmlFor="prefix" className="block text-sm font-medium text-gray-300">
-                คำนำหน้าชื่อ
-              </label>
-              <select
-                id="prefix"
-                name="prefix"
-                required
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md bg-gray-700 text-white"
-                value={prefix}
-                onChange={(e) => setPrefix(e.target.value)}
-              >
-                <option value="">เลือก</option>
-                <option value="นาย">นาย</option>
-                <option value="นาง">นาง</option>
-                <option value="นางสาว">นางสาว</option>
-                <option value="อื่นๆ">อื่นๆ</option>
-              </select>
-            </div>
-
-            {/* ชื่อ */}
-            <div className="mt-4">
-              <label htmlFor="firstName" className="sr-only">
-                ชื่อ
-              </label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                autoComplete="given-name"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="ชื่อ"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-
-            {/* นามสกุล */}
-            <div className="mt-4">
-              <label htmlFor="lastName" className="sr-only">
-                นามสกุล
-              </label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                autoComplete="family-name"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="นามสกุล"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-
-            {/* ที่อยู่ */}
-            <div className="mt-4">
-              <label htmlFor="address" className="sr-only">
-                ที่อยู่
-              </label>
-              <textarea
-                id="address"
-                name="address"
-                rows="3"
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="ที่อยู่"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              ></textarea>
-            </div>
-
-            {/* เพศ */}
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-300">
-                เพศ
-              </label>
-              <div className="mt-1 space-x-4 flex">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio text-blue-600"
-                    name="gender"
-                    value="ชาย"
-                    checked={gender === 'ชาย'}
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  <span className="ml-2 text-gray-300">ชาย</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio text-blue-600"
-                    name="gender"
-                    value="หญิง"
-                    checked={gender === 'หญิง'}
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  <span className="ml-2 text-gray-300">หญิง</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    className="form-radio text-blue-600"
-                    name="gender"
-                    value="อื่นๆ"
-                    checked={gender === 'อื่นๆ'}
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  <span className="ml-2 text-gray-300">อื่นๆ</span>
-                </label>
+              
+              <div>
+                <label htmlFor="address" className="sr-only">ที่อยู่</label>
+                <textarea
+                  id="address"
+                  name="address"
+                  rows="3"
+                  placeholder="ที่อยู่"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                ></textarea>
               </div>
-            </div>
 
-            {/* วันเกิด */}
-            <div className="mt-4">
-              <label htmlFor="dob" className="block text-sm font-medium text-gray-300">
-                วันเกิด
-              </label>
-              <input
-                id="dob"
-                name="dob"
-                type="date"
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-600 text-white bg-gray-700 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
-              />
-            </div>
+              
+              <div>
+                <label htmlFor="sex" className="sr-only">เพศ</label>
+                <select
+                  id="sex" // เปลี่ยน id
+                  name="sex" // เปลี่ยน name
+                  onChange={(e) => setSex(e.target.value)} // เปลี่ยน setGender เป็น setSex
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                  value={sex} // เปลี่ยน value
+                >
+                  <option value="">เลือกเพศ</option>
+                  <option value="ชาย">ชาย</option>
+                  <option value="หญิง">หญิง</option>
+                  <option value="อื่นๆ">อื่นๆ</option>
+                </select>
+              </div>
 
-            {/* Checkbox ยอมรับเงื่อนไข */}
-            <div className="flex items-center mt-4">
-              <input
-                id="agreeTerms"
-                name="agreeTerms"
-                type="checkbox"
-                required
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded"
-                checked={agreeTerms}
-                onChange={(e) => setAgreeTerms(e.target.checked)}
-              />
-              <label htmlFor="agreeTerms" className="ml-2 block text-sm text-gray-300">
-                ฉันยอมรับ <a href="#" className="font-medium text-blue-400 hover:text-blue-300">เงื่อนไขการให้บริการ</a>
-              </label>
-            </div>
+              
+              <div className="rounded-b-md">
+                <label htmlFor="birthday" className="block text-sm font-medium text-gray-300 sr-only">วันเกิด</label>
+                <input
+                  id="birthday" // เปลี่ยน id
+                  name="birthday" // เปลี่ยน name
+                  type="date"
+                  placeholder="วันเกิด"
+                  value={birthday} // เปลี่ยน value
+                  onChange={(e) => setBirthday(e.target.value)} // เปลี่ยน setDob เป็น setBirthday
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  required
+                />
+              </div>
+
+            </div> 
 
             {error && (
               <div className="text-red-400 text-sm text-center">
@@ -275,18 +222,19 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* ปุ่ม Register */}
+            
             <div>
               <button
                 type="submit"
-                disabled={loading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading}
               >
                 {loading ? 'กำลังสมัครสมาชิก...' : 'สมัครสมาชิก'}
               </button>
             </div>
           </form>
-          <div className="text-center text-sm">
+
+          <div className="text-center text-sm mt-4">
             <Link href="/login" className="font-medium text-blue-400 hover:text-blue-300">
               มีบัญชีอยู่แล้ว? เข้าสู่ระบบ
             </Link>

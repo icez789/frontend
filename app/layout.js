@@ -1,4 +1,3 @@
-// frontend/app/layout.js
 
 import './globals.css';
 import Link from 'next/link'; // อย่าลืม import Link
