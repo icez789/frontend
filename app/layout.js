@@ -2,6 +2,7 @@
 import './globals.css';
 import Link from 'next/link'; // อย่าลืม import Link
 
+
 export const metadata = {
   title: 'My Website - สร้างสรรค์เว็บไซต์คุณภาพ',
   description: 'บริการพัฒนาเว็บไซต์ Next.js และ Tailwind CSS สร้างประสบการณ์ผู้ใช้ที่รวดเร็วและสวยงาม',

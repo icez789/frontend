@@ -1,11 +1,9 @@
-// frontend/app/admin/users/page.js
 'use client';
 import Link from 'next/link';
-import { useEffect, useState } from 'react'; // แก้ไขตรงนี้: ลบ ; ออกไป
-import Swal from 'sweetalert2'; // Import SweetAlert2
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'; // นำเข้าไลบรารี SweetAlert2
 
-
-export default function AdminUsersPage() { // เปลี่ยนชื่อ Component ให้สื่อความหมาย
+export default function Page() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,7 +35,7 @@ export default function AdminUsersPage() { // เปลี่ยนชื่อ 
   }, []);
 
   // ฟังก์ชันสำหรับจัดการการลบผู้ใช้
-  const handleDelete = async (id, username) => {
+  const handleDelete = (id, username) => {
     Swal.fire({
       title: 'คุณแน่ใจหรือไม่?',
       text: `คุณต้องการลบผู้ใช้ "${username}" ใช่ไหม?`,
@@ -52,6 +50,9 @@ export default function AdminUsersPage() { // เปลี่ยนชื่อ 
         try {
           const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`, {
             method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
           });
 
           if (!res.ok) {
@@ -81,15 +82,14 @@ export default function AdminUsersPage() { // เปลี่ยนชื่อ 
     <>
       <title>จัดการผู้ใช้ - Admin</title>
       <meta name="description" content="หน้าจัดการรายชื่อผู้ใช้สำหรับผู้ดูแลระบบ" />
-
       
-      <div className="pt-20"></div> 
+      <div className="pt-20"></div>
 
       <div className="container mx-auto px-4 py-8 bg-gray-900 text-white min-h-screen">
         <div className="bg-gray-800 rounded-lg shadow-xl overflow-hidden">
           <div className="p-6 border-b border-gray-700 flex justify-between items-center">
             <h2 className="text-2xl font-bold text-white">รายชื่อผู้ใช้</h2>
-           
+            
             <Link href="/register" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
               + เพิ่มผู้ใช้ใหม่
             </Link>
@@ -101,7 +101,6 @@ export default function AdminUsersPage() { // เปลี่ยนชื่อ 
               {!loading && !error && items.length === 0 && (
                 <p className="text-center text-gray-400">ไม่พบข้อมูลผู้ใช้</p>
               )}
-
               {!loading && !error && items.length > 0 && (
                 <table className="min-w-full divide-y divide-gray-700 bg-gray-800 text-white">
                   <thead className="bg-gray-700">
@@ -110,10 +109,10 @@ export default function AdminUsersPage() { // เปลี่ยนชื่อ 
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[10%]">คำนำหน้า</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[15%]">ชื่อ</th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[15%]">นามสกุล</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[15%]">ชื่อผู้ใช้</th> {/* เพิ่ม Username */}
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[20%]">ที่อยู่</th> {/* เพิ่ม Address */}
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[5%]">เพศ</th> {/* เพิ่ม Sex */}
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[10%]">วันเกิด</th> {/* เพิ่ม Birthday */}
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[15%]">ชื่อผู้ใช้</th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[20%]">ที่อยู่</th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[5%]">เพศ</th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider w-[10%]">วันเกิด</th>
                       <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider w-[5%]">แก้ไข</th>
                       <th scope="col" className="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider w-[5%]">ลบ</th>
                     </tr>
@@ -125,10 +124,10 @@ export default function AdminUsersPage() { // เปลี่ยนชื่อ 
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.firstname}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.fullname}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.lastname}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.username}</td> {/* แสดง Username */}
-                        <td className="px-6 py-4 whitespace-normal text-sm text-gray-300">{item.address || '-'}</td> {/* แสดง Address */}
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.sex || '-'}</td>       {/* แสดง Sex */}
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.birthday ? new Date(item.birthday).toLocaleDateString('th-TH') : '-'}</td> {/* แสดง Birthday */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.username}</td>
+                        <td className="px-6 py-4 whitespace-normal text-sm text-gray-300">{item.address || '-'}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.sex || '-'}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{item.birthday ? new Date(item.birthday).toLocaleDateString('th-TH') : '-'}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-center">
                           <Link href={`/admin/users/edit/${item.id}`} className="inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
                             Edit

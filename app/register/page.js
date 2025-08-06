@@ -134,7 +134,7 @@ export default function Register() {
                 />
               </div>
 
-              {/* Username */}
+              
               <div>
                 <label htmlFor="username" className="sr-only">Username</label>
                 <input
