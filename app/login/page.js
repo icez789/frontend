@@ -1,153 +1,100 @@
-
-
-'use client'; 
-
+'use client'
 import { useState } from 'react';
-import Link from 'next/link'; 
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Swal from 'sweetalert2';
 
-export default function LoginPage() {
-  const [username, setUsername] = useState(''); // เปลี่ยนจาก email เป็น username
+export default function Page() {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false); // เพิ่ม state สำหรับจำฉันไว้
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  // ถ้าคุณใช้ Next.js router สำหรับการ redirect หลัง login
-  // import { useRouter } from 'next/navigation';
-  // const router = useRouter();
+  const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
-    setLoading(true); // Show loading state
 
-    // TODO: ตรงนี้คือส่วนที่คุณจะต้องเชื่อมต่อกับระบบ Backend สำหรับการ Login จริงๆ
-    // คุณอาจจะต้องส่ง username และ password ไปยัง API ของคุณ
-    // ตัวอย่างเช่น:
-    // const response = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ username, password, rememberMe }),
-    // });
-    // const data = await response.json();
+    const res = await fetch('http://itdev.cmtc.ac.th:3000/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-    // ตัวอย่างการจำลองการ Login (แทนที่ด้วย Logic จริง)
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call
-      if (username === 'testuser' && password === 'password123') { // เปลี่ยนเงื่อนไขการตรวจสอบ
-        console.log('Login successful!', { username, rememberMe });
-        // router.push('/dashboard'); // เปลี่ยนเส้นทางไปหน้า Dashboard หรือหน้าหลัก
-        alert('เข้าสู่ระบบสำเร็จ!');
-      } else {
-        setError('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-      }
-    } catch (err) {
-      setError('เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
-      console.error(err);
-    } finally {
-      setLoading(false); // Hide loading state
+    const data = await res.json();
+    console.log(username);
+
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      Swal.fire({
+        icon: 'success',
+        title: '<h3>Login Successfuly!</h3>',
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        window.location.href = "/admin/users";
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: '<h3>Login Failed!</h3>',
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        router.push('/signin');
+      });
     }
   };
 
   return (
-    <>
-      {/* สำหรับ App Router, metadata ควรถูกจัดการใน layout.js หรือใช้ generateMetadata */}
-      <title>เข้าสู่ระบบ - My Website</title>
-      <meta name="description" content="หน้าเข้าสู่ระบบสำหรับ My Website" />
-
-      <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8 bg-gray-800 p-10 rounded-lg shadow-xl">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-100">
+      <div className="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-xl shadow-lg">
+        <h2 className="text-3xl font-bold text-center text-white">Sign In</h2>
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-              เข้าสู่ระบบ
-            </h2>
+            <label className="block text-sm font-medium text-gray-400">Username</label>
+            <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i className="bi bi-person-vcard text-gray-400"></i>
+              </div>
+              <input
+                type="text"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Username"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+                required
+              />
+            </div>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="rounded-md shadow-sm -space-y-px">
-              {/* ช่องกรอก Username */}
-              <div>
-                <label htmlFor="username" className="sr-only">
-                  ชื่อผู้ใช้
-                </label>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="ชื่อผู้ใช้"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
+          <div>
+            <label className="block text-sm font-medium text-gray-400">Password</label>
+            <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i className="bi bi-person-vcard text-gray-400"></i>
               </div>
-              {/* ช่องกรอก Password */}
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  รหัสผ่าน
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-700 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="รหัสผ่าน"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
+              <input
+                type="password"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                required
+              />
             </div>
-
-            <div className="flex items-center justify-between">
-              {/* Checkbox "จำฉันไว้" */}
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-300">
-                  จำฉันไว้
-                </label>
-              </div>
-
-              {/* ลิงก์ "ลืมรหัสผ่าน" */}
-              <div className="text-sm">
-                <Link href="/forgot-password" className="font-medium text-blue-400 hover:text-blue-300">
-                  ลืมรหัสผ่าน?
-                </Link>
-              </div>
-            </div>
-
-            {error && (
-              <div className="text-red-400 text-sm text-center">
-                {error}
-              </div>
-            )}
-
-            <div>
-              {/* ปุ่ม Login */}
-              <button
-                type="submit"
-                disabled={loading}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
-              </button>
-            </div>
-          </form>
-          {/* ลิงก์ "สมัครสมาชิก" */}
-          <div className="text-center text-sm">
-            <Link href="/register" className="font-medium text-blue-400 hover:text-blue-300">
-              ยังไม่มีบัญชี? สมัครสมาชิก
-            </Link>
           </div>
+          <button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Sign In
+          </button>
+        </form>
+        <div className="text-center text-sm text-gray-400 space-x-2">
+          <Link href="/register" className="hover:text-white">Create Account</Link>
+          <span>|</span>
+          <Link href="/" className="hover:text-white">Forget Password</Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
