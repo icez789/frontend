@@ -23,7 +23,7 @@ export default function Page() {
   useEffect(() => {
     async function getUsers() {
       try {
-        const res = await fetch(`http://itdev.cmtc.ac.th:3000/api/users/${id}`);
+        const res = await fetch(`https://backend-nextjs-virid.vercel.app/api/users/${id}`);
         if (!res.ok) {
           console.error('Failed to fetch data');
           return;
@@ -52,7 +52,7 @@ export default function Page() {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://itdev.cmtc.ac.th:3000/api/users', { 
+      const res = await fetch('https://backend-nextjs-virid.vercel.app/api/users', { 
         method: 'PUT',
         headers: {
           Accept : 'application/json',
@@ -68,7 +68,7 @@ export default function Page() {
           showConfirmButton: false,
           timer: 2000
         }).then(function () {
-          router.push('/register');
+          router.push('/admin/users');
         });
       } else {
         Swal.fire({
